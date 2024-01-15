@@ -50,6 +50,14 @@ pAequorFactory = (specimenNum, dna) => {
         return dna;
       }
     },
+    compareDNA(pAequor) {
+      let counter = 0;
+      for (let i=0; i< pAequor.length; i++) {
+        if (dna[i]===pAequor.dna[i])
+        counter++;
+      }
+      console.log(`Specimen ${specimenNum} and specimen ${pAequor.specimenNum} have ${Math.round(counter/pAequor.length*100}% DNA in common.`);
+    },
   };
 };
 
