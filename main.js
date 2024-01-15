@@ -24,45 +24,55 @@ const getRandomDnaBaseNumber = () => {
 };
 
 // Factory Function that returns an object that contains the properties specimenNum and dna that correspond to the parameters provided
-pAequorFactory = (specimenNum, dna) => {
+const pAequorFactory = (specimenNum, dna) => {
   return {
     specimenNum: specimenNum,
     dna: dna,
     mutate() {
       let randomPosition = getRandomDnaNumber();
       let randomBase = getRandomDnaBaseNumber();
-      let mutableBase = dna[randomPosition];
+      let mutableBase = this.dna[randomPosition];
       if (mutableBase === "A") {
         let baseArr = ["T", "C", "G"];
-        dna[randomPosition] = baseArr[randomBase];
-        return dna;
+        this.dna[randomPosition] = baseArr[randomBase];
+        return this.dna;
       } else if (mutableBase === "T") {
         let baseArr = ["A", "C", "G"];
-        dna[randomPosition] = baseArr[randomBase];
-        return dna;
+        this.dna[randomPosition] = baseArr[randomBase];
+        return this.dna;
       } else if (mutableBase === "C") {
         let baseArr = ["A", "T", "G"];
-        dna[randomPosition] = baseArr[randomBase];
-        return dna;
+        this.dna[randomPosition] = baseArr[randomBase];
+        return this.dna;
       } else if (mutableBase === "G") {
         let baseArr = ["A", "T", "C"];
-        dna[randomPosition] = baseArr[randomBase];
-        return dna;
+        this.dna[randomPosition] = baseArr[randomBase];
+        return this.dna;
       }
     },
     compareDNA(pAequor) {
       let counter = 0;
-      for (let i=0; i< pAequor.length; i++) {
-        if (dna[i]===pAequor.dna[i])
-        counter++;
+      for (let i = 0; i < this.dna.length; i++) {
+        if (this.dna[i] === pAequor.dna[i]) {
+          counter++;
+        }
       }
-      console.log(`Specimen ${specimenNum} and specimen ${pAequor.specimenNum} have ${Math.round(counter/pAequor.length*100}% DNA in common.`);
+
+      console.log("counter: ", counter);
+
+      console.log(
+        `Specimen ${this.specimenNum} and specimen ${
+          pAequor.specimenNum
+        } have ${Math.round(
+          (counter / this.dna.length) * 100
+        )} % DNA in common.`
+      );
     },
     willLikelySurvive() {
       let counter = 0;
-      for (let i=0; i<dna.length; i++) {
-        if (dna[i] === 'C' || dna[i] === 'G') {
-          counter++
+      for (let i = 0; i < this.dna.length; i++) {
+        if (this.dna[i] === "C" || this.dna[i] === "G") {
+          counter++;
         }
       }
       if (counter >= 9) {
@@ -74,5 +84,18 @@ pAequorFactory = (specimenNum, dna) => {
   };
 };
 
-console.log(pAequorFactory(1, mockUpStrand()));
-console.log(mockUpStrand());
+const survivingSpecimen = [];
+let idCounter = 1;
+
+while (survivingSpecimen.length < 30) {
+  let newOrg = pAequorFactory(idCounter, mockUpStrand());
+  if (newOrg.willLikelySurvive()) {
+    survivingSpecimen.push(newOrg);
+  }
+  idCounter++;
+}
+
+console.log(survivingSpecimen[11].dna);
+//console.log(survivingSpecimen[0].mutate())
+survivingSpecimen[16].compareDNA(survivingSpecimen[17]);
+console.log(survivingSpecimen[11].willLikelySurvive());
