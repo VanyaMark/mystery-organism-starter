@@ -58,6 +58,19 @@ pAequorFactory = (specimenNum, dna) => {
       }
       console.log(`Specimen ${specimenNum} and specimen ${pAequor.specimenNum} have ${Math.round(counter/pAequor.length*100}% DNA in common.`);
     },
+    willLikelySurvive() {
+      let counter = 0;
+      for (let i=0; i<dna.length; i++) {
+        if (dna[i] === 'C' || dna[i] === 'G') {
+          counter++
+        }
+      }
+      if (counter >= 9) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   };
 };
 
